@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../routes/app_routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   void _login() {
     if (_formKey.currentState!.validate()) {
       // Navigate to HomePage on success
-      Get.offAllNamed('/home');
+      Get.offAllNamed(Routes.HOME);
     }
   }
 

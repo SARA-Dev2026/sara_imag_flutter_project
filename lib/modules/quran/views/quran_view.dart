@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'home_view.dart';
+import '../../../routes/app_routes.dart';
 
 class Surah {
   final String name;
@@ -171,7 +171,7 @@ class QuranView extends StatelessWidget {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: () => Get.to(() => const Homee()),
+              onPressed: () => Get.toNamed(Routes.STORE),
               icon: const Icon(Icons.store),
               label: Text("next_store".tr),
               style: ElevatedButton.styleFrom(

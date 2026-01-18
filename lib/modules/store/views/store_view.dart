@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'student_features_view.dart'; // For StudentDrawer
+import '../../student_affairs/views/student_features_view.dart';
+import '../../../routes/app_routes.dart';
 
-// --- Store Page (Homee) ---
-class Homee extends StatelessWidget {
-  const Homee({super.key});
+class StoreView extends StatelessWidget {
+  const StoreView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class Homee extends StatelessWidget {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Get.to(() => const AddStudent());
+                      Get.toNamed(Routes.STUDENT_AFFAIRS);
                     },
                     icon: const Icon(Icons.arrow_forward),
                     label: Text("next_student".tr),
@@ -67,6 +67,7 @@ class Homee extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         selectedItemColor: const Color(0xFF4B2C5E),
         unselectedItemColor: Colors.grey,
         backgroundColor: Colors.white,

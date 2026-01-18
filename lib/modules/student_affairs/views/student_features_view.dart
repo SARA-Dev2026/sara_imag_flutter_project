@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'home_view.dart'; // Import for Homee page
-import 'login_view.dart'; // Import for LoginPage
-import 'image_task_view.dart';
+import '../../../routes/app_routes.dart';
 
 class StudentDrawer extends StatelessWidget {
   const StudentDrawer({super.key});
@@ -27,14 +25,14 @@ class StudentDrawer extends StatelessWidget {
               leading: const Icon(Icons.store, color: Color(0xFF4B2C5E)),
               title: Text("store".tr),
               onTap: () {
-                Get.offAll(() => const Homee());
+                Get.offAllNamed(Routes.STORE);
               },
             ),
             ListTile(
               leading: const Icon(Icons.person_add, color: Color(0xFF4B2C5E)),
               title: Text("add_student".tr),
               onTap: () {
-                Get.offAll(() => const AddStudent());
+                Get.offAllNamed(Routes.STUDENT_AFFAIRS);
               },
             ),
             const Spacer(),
@@ -42,7 +40,7 @@ class StudentDrawer extends StatelessWidget {
               leading: const Icon(Icons.logout, color: Color(0xFF4B2C5E)),
               title: Text("logout".tr),
               onTap: () {
-                Get.offAll(() => const LoginPage());
+                Get.offAllNamed(Routes.LOGIN);
               },
             ),
           ],
@@ -134,7 +132,7 @@ class _AddStudentState extends State<AddStudent> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Get.to(() => const ImageTaskScreen());
+                      Get.toNamed(Routes.IMAGE_TASK);
                     },
                     icon: const Icon(Icons.arrow_forward),
                     label: Text("next_image_task".tr),

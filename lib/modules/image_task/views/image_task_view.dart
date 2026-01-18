@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'ss_view.dart';
+import '../../../routes/app_routes.dart';
 
 class ImageTaskScreen extends StatefulWidget {
   const ImageTaskScreen({super.key});
@@ -138,7 +138,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Get.to(() => const MyTask());
+                      Get.toNamed(Routes.EXTRA_TASK);
                     },
                     icon: const Icon(Icons.arrow_forward),
                     label: Text("next_ss".tr),
