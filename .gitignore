@@ -1,45 +1,45 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
-/coverage/
 
-# Symbolication related
-app.*.symbols
+# Android
+**/*.iml
+.gradle/
+local.properties
+/android/key.properties
+/android/app/src/main/res/drawable-mdpi/ic_launcher.png
+/android/app/src/main/res/drawable-hdpi/ic_launcher.png
+/android/app/src/main/res/drawable-xhdpi/ic_launcher.png
+/android/app/src/main/res/drawable-xxhdpi/ic_launcher.png
+/android/app/src/main/res/drawable-xxxhdpi/ic_launcher.png
 
-# Obfuscation related
-app.*.map.json
+# iOS
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+/ios/Runner/GeneratedPluginRegistrant.h
+/ios/Runner/GeneratedPluginRegistrant.m
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/flutter_export_environment.sh
+/ios/Flutter/App.framework
+/ios/Flutter/App.podspec
+/ios/Flutter/App.framework.zip
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Flutter.podspec
+/ios/Flutter/Flutter.framework.zip
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Web
+/build/web
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Misc
+.DS_Store

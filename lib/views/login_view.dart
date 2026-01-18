@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'student_features.dart'; // Import for AddStudent feature
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,10 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   void _login() {
     if (_formKey.currentState!.validate()) {
       // Navigate to HomePage on success
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const AddStudent()),
-      );
+      Get.offAllNamed('/home');
     }
   }
 
@@ -38,9 +34,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           // 2. Overlay
           Positioned.fill(
-            child: Container(
-              color: const Color(0xFFF5F5DC).withValues(alpha: 0.3),
-            ),
+            child: Container(color: Color(0xFFF5F5DC).withValues(alpha: 0.3)),
           ),
 
           // 3. Login Content
@@ -84,9 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 40),
 
                     // Title
-                    const Text(
-                      "تسجيل الدخول",
-                      style: TextStyle(
+                    Text(
+                      "login_title".tr,
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF4B2C5E),
@@ -100,17 +94,14 @@ class _LoginPageState extends State<LoginPage> {
                       style: const TextStyle(
                         color: Colors.black,
                       ), // Ensure text is visible
-                      decoration: _inputDecoration(
-                        "اسم المستخدم",
-                        Icons.person,
-                      ),
+                      decoration: _inputDecoration("username".tr, Icons.person),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'الرجاء إدخال اسم المستخدم';
+                          return 'username_empty'.tr;
                         }
                         // Check if value contains any numbers
                         if (RegExp(r'[0-9]').hasMatch(value)) {
-                          return 'اسم المستخدم يجب أن يكون نصاً فقط (بدون أرقام)';
+                          return 'username_text_only'.tr;
                         }
                         return null;
                       },
@@ -124,10 +115,10 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.black,
                       ), // Ensure text is visible
                       obscureText: true,
-                      decoration: _inputDecoration("كلمة المرور", Icons.lock),
+                      decoration: _inputDecoration("password".tr, Icons.lock),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'الرجاء إدخال كلمة المرور';
+                          return 'password_empty'.tr;
                         }
                         return null;
                       },
@@ -146,17 +137,15 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(
-                                0xFF4B2C5E,
-                              ).withValues(alpha: 0.4),
+                              color: Color(0xFF4B2C5E).withValues(alpha: 0.4),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
                           ],
                         ),
-                        child: const Text(
-                          "دخول",
-                          style: TextStyle(
+                        child: Text(
+                          "login_button".tr,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -171,14 +160,12 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         // Mock action for now
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("سيتم تفعيل إنشاء الحساب قريباً"),
-                          ),
+                          SnackBar(content: Text("register_soon".tr)),
                         );
                       },
-                      child: const Text(
-                        "ليس لديك حساب؟ سجل الآن",
-                        style: TextStyle(
+                      child: Text(
+                        "no_account".tr,
+                        style: const TextStyle(
                           color: Color(0xFF4B2C5E),
                           fontWeight: FontWeight.bold,
                         ),

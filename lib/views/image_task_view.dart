@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'ss_view.dart';
 
 class ImageTaskScreen extends StatefulWidget {
   const ImageTaskScreen({super.key});
@@ -28,9 +30,12 @@ class _ImageTaskScreenState extends State<ImageTaskScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5DC), // Cream background
       appBar: AppBar(
-        title: const Text(
-          "واجب: اختيار صور والتحكم بالحجم",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          "image_task_title".tr,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: const Color(0xFF4B2C5E), // Purple theme
         centerTitle: true,
@@ -78,9 +83,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen> {
               ),
               const SizedBox(height: 40),
 
-              const Text(
-                "تحكم في حجم الصورة",
-                style: TextStyle(
+              Text(
+                "control_size".tr,
+                style: const TextStyle(
                   color: Color(0xFF4B2C5E),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -93,7 +98,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen> {
                 min: 50.0,
                 max: 300.0,
                 activeColor: const Color(0xFF4B2C5E),
-                inactiveColor: const Color(0xFF4B2C5E).withValues(alpha: 0.2),
+                inactiveColor: Color(0xFF4B2C5E).withValues(alpha: 0.2),
                 label: _currentSize.round().toString(),
                 onChanged: (val) => setState(() => _currentSize = val),
               ),
@@ -104,7 +109,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen> {
               ElevatedButton.icon(
                 onPressed: _pickImage,
                 icon: const Icon(Icons.photo_library),
-                label: const Text("اختار صورة من الاستوديو"),
+                label: Text("pick_image".tr),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4B2C5E),
                   foregroundColor: Colors.white,
@@ -117,6 +122,32 @@ class _ImageTaskScreenState extends State<ImageTaskScreen> {
                   ),
                   elevation: 5,
                 ),
+              ),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () => Get.back(),
+                    icon: const Icon(Icons.arrow_back),
+                    label: Text("back_student".tr),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4B2C5E),
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Get.to(() => const MyTask());
+                    },
+                    icon: const Icon(Icons.arrow_forward),
+                    label: Text("next_ss".tr),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4B2C5E),
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

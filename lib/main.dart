@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'image_task_screen.dart';
+import 'core/localization/locale.dart';
+import 'controllers/language_controller.dart';
+import 'views/image_task_view.dart';
+import 'views/login_view.dart';
+import 'views/student_features_view.dart';
+import 'views/home_view.dart';
+import 'views/ss_view.dart';
+import 'views/quran_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,26 +19,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    Get.put(LanguageController());
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Islamic App',
+      translations: MyLocale(),
       theme: ThemeData(
         primaryColor: const Color(0xFF4B2C5E),
         scaffoldBackgroundColor: const Color(0xFFF5F5DC),
         textTheme: GoogleFonts.cairoTextTheme(Theme.of(context).textTheme),
         useMaterial3: true,
       ),
-      // RTL Support
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const LoginPage()),
+        GetPage(name: '/home', page: () => const HomePage()),
       ],
-      supportedLocales: const [
-        Locale('ar', 'AE'), // Arabic
-      ],
-      locale: const Locale('ar', 'AE'),
-      home: const HomePage(),
     );
   }
 }
@@ -43,35 +46,35 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Drawer items data
     final List<Map<String, dynamic>> drawerItems = [
-      {'icon': Icons.home, 'title': 'الرئيسية'},
-      {'icon': Icons.info, 'title': 'عن التطبيق'},
-      {'icon': Icons.book, 'title': 'القرآن الكريم'},
-      {'icon': Icons.nightlight_round, 'title': 'رمضانيات'},
-      {'icon': Icons.favorite, 'title': 'أذكاري الخاصة'},
-      {'icon': Icons.favorite_border, 'title': 'أدعيتي الخاصة'},
-      {'icon': Icons.timer, 'title': 'سبحتي الخاصة'},
-      {'icon': Icons.volunteer_activism, 'title': 'صدقة جارية'},
-      {'icon': Icons.card_giftcard, 'title': 'اهداء'},
-      {'icon': Icons.code, 'title': 'مطور التطبيق'},
-      {'icon': Icons.star, 'title': 'تقييم التطبيق'},
-      {'icon': Icons.share, 'title': 'انشر التطبيق'},
-      {'icon': Icons.exit_to_app, 'title': 'خروج'},
+      {'icon': Icons.home, 'title': 'home'.tr},
+      {'icon': Icons.store, 'title': 'store'.tr},
+      {'icon': Icons.person_add, 'title': 'student_affairs'.tr},
+      {'icon': Icons.image, 'title': 'image_task'.tr},
+      {'icon': Icons.assignment, 'title': 'extra_task'.tr},
+      {'icon': Icons.info, 'title': 'about_app'.tr},
+      {'icon': Icons.book, 'title': 'quran'.tr},
+      {'icon': Icons.nightlight_round, 'title': 'ramadan'.tr},
+      {'icon': Icons.language, 'title': 'change_language'.tr},
+      {'icon': Icons.exit_to_app, 'title': 'exit'.tr},
     ];
 
     // Main screen buttons data
     final List<String> mainButtons = [
-      "القرآن الكريم",
-      "أذكار",
-      "أدعية",
-      "تسابيح",
-      "الرقية الشرعية",
-      "رمضانيات",
-      "المعرض الإسلامي",
-      "أسماء الله الحسنى",
-      "آداب إسلامية",
-      "مفاتيح الفرج",
-      "عن التطبيق",
-      "مهمة الصور والتحكم",
+      "store".tr,
+      "student_affairs".tr,
+      "image_task".tr,
+      "extra_task".tr,
+      "quran".tr,
+      "athkar".tr,
+      "supplications".tr,
+      "tasbih".tr,
+      "ruqyah".tr,
+      "ramadan".tr,
+      "islamic_gallery".tr,
+      "allah_names".tr,
+      "islamic_etiquette".tr,
+      "keys_to_relief".tr,
+      "about_app".tr,
     ];
 
     return Scaffold(
@@ -113,10 +116,10 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      "كن مع الله\nيكن الله معك",
+                    Text(
+                      "be_with_allah".tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -158,7 +161,28 @@ class HomePage extends StatelessWidget {
                             )
                           : null,
                       onTap: () {
-                        Navigator.pop(context);
+                        Get.back(); // Close drawer
+                        String title = drawerItems[index]['title'];
+                        if (title == "store".tr) {
+                          Get.to(() => const Homee());
+                        } else if (title == "student_affairs".tr) {
+                          Get.to(() => const AddStudent());
+                        } else if (title == "image_task".tr) {
+                          Get.to(() => const ImageTaskScreen());
+                        } else if (title == "extra_task".tr) {
+                          Get.to(() => const MyTask());
+                        } else if (title == "quran".tr) {
+                          Get.to(() => const QuranView());
+                        } else if (title == "exit".tr) {
+                          Get.offAll(() => const LoginPage());
+                        } else if (title == 'change_language'.tr) {
+                          LanguageController controller = Get.find();
+                          if (Get.locale?.languageCode == 'ar') {
+                            controller.changeLang('en');
+                          } else {
+                            controller.changeLang('ar');
+                          }
+                        }
                       },
                     );
                   },
@@ -181,9 +205,7 @@ class HomePage extends StatelessWidget {
           // 2. Overlay
           Positioned.fill(
             child: Container(
-              color: const Color(
-                0xFFF5F5DC,
-              ).withValues(alpha: 0.3), // Cream tint
+              color: Color(0xFFF5F5DC).withValues(alpha: 0.3), // Cream tint
             ),
           ),
 
@@ -291,23 +313,61 @@ class HomePage extends StatelessWidget {
                   ),
                   itemCount: mainButtons.length,
                   itemBuilder: (context, index) {
+                    final String btnText = mainButtons[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 15),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (mainButtons[index] == "مهمة الصور والتحكم") {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ImageTaskScreen(),
-                              ),
+                      child: IslamicButton(
+                        text: btnText,
+                        onPressed: () {
+                          if (btnText == "image_task".tr) {
+                            Get.to(() => const ImageTaskScreen());
+                          } else if (btnText == "student_affairs".tr) {
+                            Get.to(() => const AddStudent());
+                          } else if (btnText == "store".tr) {
+                            Get.to(() => const Homee());
+                          } else if (btnText == "extra_task".tr) {
+                            Get.to(() => const MyTask());
+                          } else if (btnText == "quran".tr) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("opening_quran".tr)),
                             );
+                            Get.to(() => const QuranView());
                           }
                         },
-                        child: IslamicButton(text: mainButtons[index]),
                       ),
                     );
                   },
+                ),
+              ),
+              // Sequential Navigation Buttons
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Get.offAll(() => const LoginPage());
+                      },
+                      icon: const Icon(Icons.arrow_back),
+                      label: Text("back_login".tr),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4B2C5E),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Get.to(() => const QuranView());
+                      },
+                      label: Text("next_quran".tr),
+                      icon: const Icon(Icons.arrow_forward),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4B2C5E),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -320,76 +380,100 @@ class HomePage extends StatelessWidget {
 
 class IslamicButton extends StatelessWidget {
   final String text;
-  const IslamicButton({super.key, required this.text});
+  final VoidCallback onPressed;
+  const IslamicButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-        color: const Color(0xFF4B2C5E),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 3)),
-        ],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned(
-            left: -10,
-            child: Icon(
-              Icons.spa,
-              color: Colors.white.withValues(alpha: 0.2),
-              size: 40,
-            ),
+        child: Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: const Color(0xFF4B2C5E),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
           ),
-          Positioned(
-            right: -10,
-            child: Icon(
-              Icons.spa,
-              color: Colors.white.withValues(alpha: 0.2),
-              size: 40,
-            ),
-          ),
-
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  blurRadius: 2.0,
-                  color: Colors.black,
-                  offset: Offset(1.0, 1.0),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Decorative Icons - Wrapped in IgnorePointer
+              IgnorePointer(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Icon(
+                        Icons.spa,
+                        color: Colors.white.withValues(alpha: 0.2),
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Icon(
+                        Icons.spa,
+                        color: Colors.white.withValues(alpha: 0.2),
+                        size: 40,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
 
-          Positioned(
-            top: 5,
-            bottom: 5,
-            left: 20,
-            right: 20,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.white.withValues(alpha: 0.3),
-                    width: 1,
-                  ),
-                  bottom: BorderSide(
-                    color: Colors.white.withValues(alpha: 0.3),
-                    width: 1,
+              // Main Text
+              Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 2.0,
+                      color: Colors.black,
+                      offset: Offset(1.0, 1.0),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Inner Border Effect - Wrapped in IgnorePointer
+              Positioned(
+                top: 5,
+                bottom: 5,
+                left: 20,
+                right: 20,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.white.withValues(alpha: 0.3),
+                          width: 1,
+                        ),
+                        bottom: BorderSide(
+                          color: Colors.white.withValues(alpha: 0.3),
+                          width: 1,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -400,19 +484,12 @@ class HeaderClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0, size.height - 80);
-
-    // Create the "Arch" shape (inverted)
-    // We want the purple to dip DOWN at the sides and UP in the middle
-    // Looking at the screenshot, the purple is at the top with a white arch pointing UP.
-    // So the Clipper for the purple should have a cutout at the bottom.
-
     path.quadraticBezierTo(
       size.width / 2,
-      size.height - 150, // Arch peak (white part points up)
+      size.height - 150,
       size.width,
       size.height - 80,
     );
-
     path.lineTo(size.width, 0);
     path.close();
     return path;

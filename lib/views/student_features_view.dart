@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'hoom.dart'; // Import for Homee page
-import 'login.dart'; // Import for LoginPage
+import 'package:get/get.dart';
+import 'home_view.dart'; // Import for Homee page
+import 'login_view.dart'; // Import for LoginPage
+import 'image_task_view.dart';
 
 class StudentDrawer extends StatelessWidget {
   const StudentDrawer({super.key});
@@ -14,7 +16,7 @@ class StudentDrawer extends StatelessWidget {
           children: [
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(color: Color(0xFF4B2C5E)),
-              accountName: const Text("مستخدم"),
+              accountName: Text("user_name_drawer".tr),
               accountEmail: const Text("user@example.com"),
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
@@ -23,33 +25,24 @@ class StudentDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.store, color: Color(0xFF4B2C5E)),
-              title: const Text("المتجر"),
+              title: Text("store".tr),
               onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Homee()),
-                );
+                Get.offAll(() => const Homee());
               },
             ),
             ListTile(
               leading: const Icon(Icons.person_add, color: Color(0xFF4B2C5E)),
-              title: const Text("إضافة طالب"),
+              title: Text("add_student".tr),
               onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddStudent()),
-                );
+                Get.offAll(() => const AddStudent());
               },
             ),
             const Spacer(),
             ListTile(
               leading: const Icon(Icons.logout, color: Color(0xFF4B2C5E)),
-              title: const Text("تسجيل الخروج"),
+              title: Text("logout".tr),
               onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
+                Get.offAll(() => const LoginPage());
               },
             ),
           ],
@@ -75,9 +68,9 @@ class _AddStudentState extends State<AddStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "إضافة طالب جديد",
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          "add_student_title".tr,
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF4B2C5E),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -91,22 +84,24 @@ class _AddStudentState extends State<AddStudent> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: "اسم الطالب",
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: "student_name".tr,
+                  border: const OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value == null || value.isEmpty ? "يرجى إدخال الاسم" : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? "please_enter_name".tr
+                    : null,
               ),
               const SizedBox(height: 20),
               TextFormField(
                 controller: _gradeController,
-                decoration: const InputDecoration(
-                  labelText: "الصف الدراسي",
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: "grade".tr,
+                  border: const OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value == null || value.isEmpty ? "يرجى إدخال الصف" : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? "please_enter_grade".tr
+                    : null,
               ),
               const SizedBox(height: 30),
               ElevatedButton(
@@ -117,12 +112,38 @@ class _AddStudentState extends State<AddStudent> {
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("تمت إضافة الطالب بنجاح")),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text("student_added".tr)));
                   }
                 },
-                child: const Text("حفظ البيانات"),
+                child: Text("save_data".tr),
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () => Get.back(),
+                    icon: const Icon(Icons.arrow_back),
+                    label: Text("back_store".tr),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4B2C5E),
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Get.to(() => const ImageTaskScreen());
+                    },
+                    icon: const Icon(Icons.arrow_forward),
+                    label: Text("next_image_task".tr),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4B2C5E),
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
