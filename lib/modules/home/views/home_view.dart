@@ -3,8 +3,16 @@ import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
 import '../../../core/controllers/language_controller.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +293,13 @@ class HomePage extends StatelessWidget {
                       child: IslamicButton(
                         text: btnText,
                         onPressed: () {
-                          if (btnText == "image_task".tr) {
+                          if (btnText == "islamic_etiquette".tr) {
+                             Get.toNamed(Routes.ISLAMIC_ETIQUETTE);
+                          } else if (btnText == "keys_to_relief".tr) {
+                             Get.toNamed(Routes.KEYS_TO_RELIEF);
+                          } else if (btnText == "about_app".tr) {
+                             Get.toNamed(Routes.ABOUT_APP);
+                          } else if (btnText == "image_task".tr) {
                             Get.toNamed(Routes.IMAGE_TASK);
                           } else if (btnText == "student_affairs".tr) {
                             Get.toNamed(Routes.STUDENT_AFFAIRS);
@@ -298,6 +312,20 @@ class HomePage extends StatelessWidget {
                               SnackBar(content: Text("opening_quran".tr)),
                             );
                             Get.toNamed(Routes.QURAN);
+                          } else if (btnText == "athkar".tr) {
+                            Get.toNamed(Routes.AZKAR);
+                          } else if (btnText == "supplications".tr) {
+                            Get.toNamed(Routes.SUPPLICATIONS);
+                          } else if (btnText == "tasbih".tr) {
+                            Get.toNamed(Routes.TASBIH);
+                          } else if (btnText == "ruqyah".tr) {
+                            Get.toNamed(Routes.RUQYAH);
+                          } else if (btnText == "ramadan".tr) {
+                            Get.toNamed(Routes.RAMADAN);
+                          } else if (btnText == "islamic_gallery".tr) {
+                            Get.toNamed(Routes.ISLAMIC_GALLERY);
+                          } else if (btnText == "allah_names".tr) {
+                            Get.toNamed(Routes.ALLAH_NAMES);
                           }
                         },
                       ),
@@ -347,7 +375,18 @@ class HomePage extends StatelessWidget {
 class IslamicButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  const IslamicButton({super.key, required this.text, required this.onPressed});
+  final bool isExpandable;
+  final bool isExpanded;
+  final bool isSubButton;
+  
+  const IslamicButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isExpandable = false,
+    this.isExpanded = false,
+    this.isSubButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +396,7 @@ class IslamicButton extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(15),
         child: Container(
-          height: 60,
+          height: isSubButton ? 55 : 60,
           decoration: BoxDecoration(
             color: const Color(0xFF4B2C5E),
             borderRadius: BorderRadius.circular(15),
@@ -397,19 +436,47 @@ class IslamicButton extends StatelessWidget {
                 ),
               ),
 
-              // Main Text
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 2.0,
-                      color: Colors.black,
-                      offset: Offset(1.0, 1.0),
+              // Main Content Row
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Expandable arrow indicator (left side)
+                    if (isExpandable)
+                      AnimatedRotation(
+                        turns: isExpanded ? 0.25 : 0.75,
+                        duration: const Duration(milliseconds: 300),
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      )
+                    else
+                      const SizedBox(width: 20),
+                    
+                    // Main Text
+                    Expanded(
+                      child: Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: isSubButton ? 17 : 20,
+                          fontWeight: FontWeight.bold,
+                          shadows: const [
+                            Shadow(
+                              blurRadius: 2.0,
+                              color: Colors.black,
+                              offset: Offset(1.0, 1.0),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
+                    
+                    const SizedBox(width: 20),
                   ],
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
+import '../controllers/student_affairs_controller.dart';
 
 class StudentDrawer extends StatelessWidget {
   const StudentDrawer({super.key});
@@ -110,9 +111,10 @@ class _AddStudentState extends State<AddStudent> {
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text("student_added".tr)));
+                    Get.find<StudentAffairsController>().addStudent(
+                      _nameController.text,
+                      _gradeController.text,
+                    );
                   }
                 },
                 child: Text("save_data".tr),
@@ -132,7 +134,10 @@ class _AddStudentState extends State<AddStudent> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Get.toNamed(Routes.IMAGE_TASK);
+                      Get.toNamed(
+                        Routes.IMAGE_TASK, 
+                        arguments: {'studentName': _nameController.text}
+                      );
                     },
                     icon: const Icon(Icons.arrow_forward),
                     label: Text("next_image_task".tr),

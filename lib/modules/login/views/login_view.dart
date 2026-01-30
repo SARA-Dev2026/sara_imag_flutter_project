@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
+
+
+import '../controllers/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,13 +15,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      // Navigate to HomePage on success
-      Get.offAllNamed(Routes.HOME);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +123,14 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Login Button (Custom Style)
                     GestureDetector(
-                      onTap: _login,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          Get.find<LoginController>().login(
+                            _usernameController.text,
+                            _passwordController.text,
+                          );
+                        }
+                      },
                       child: Container(
                         width: double.infinity,
                         height: 55,
@@ -144,13 +146,16 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                        child: Text(
-                          "login_button".tr,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Obx(() => Get.find<LoginController>().isLoading.value 
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "login_button".tr,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
                         ),
                       ),
                     ),
@@ -159,10 +164,14 @@ class _LoginPageState extends State<LoginPage> {
                     // Register Link
                     TextButton(
                       onPressed: () {
-                        // Mock action for now
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("register_soon".tr)),
-                        );
+                         if (_formKey.currentState!.validate()) {
+                          Get.find<LoginController>().register(
+                            _usernameController.text,
+                            _passwordController.text,
+                          );
+                        } else {
+                          Get.snackbar("Notice", "Fill fields to register");
+                        }
                       },
                       child: Text(
                         "no_account".tr,
